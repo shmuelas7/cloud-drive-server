@@ -25,9 +25,12 @@ router.post("/createFolder", function (req, res) {
   }
 });
 //
-router.post("/upload/:path", upload.single("file"), function (req, res) {
-  console.log(req.body.file);
-  // const uploadFiles = fileLogic.uploadFiles(req.body, req.query.path);
+router.post("/upload/:path?", upload.single("file"), function (req, res) {
+  try {
+    res.send(" upload file successfully");
+  } catch (err) {
+    res.send("upload file failed please try again");
+  }
 });
 
 module.exports = router;
