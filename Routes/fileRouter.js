@@ -33,4 +33,23 @@ router.post("/upload/:path?", upload.single("file"), function (req, res) {
   }
 });
 
+router.post("/delFile", function (req, res) {
+  try {
+    console.log(req.body);
+    let res = fileLogic.delFile(req.body.body);
+    res.send("aaaa");
+  } catch (err) {
+    res.send("fff");
+  }
+});
+router.post("/renameFile", function (req, res) {
+  try {
+    console.log(req.body);
+    let res = fileLogic.renameFile(req.body.path, req.body.name);
+    res.send("aaaa");
+  } catch (err) {
+    res.send("fff");
+  }
+});
+
 module.exports = router;

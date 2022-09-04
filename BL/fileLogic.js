@@ -22,5 +22,22 @@ async function createFolder(file, path) {
     }
   } catch (err) {}
 }
+async function delFile(path) {
+  try {
+    fs.unlinkSync(path);
+    //file removed
+  } catch (err) {
+    console.error(err);
+  }
+}
 
-module.exports = { get_fils, uploadFiles, createFolder };
+async function renameFile(path, newName) {
+  try {
+    fs.renameSync(path, newName);
+    //file removed
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+module.exports = { get_fils, uploadFiles, createFolder, delFile, renameFile };
