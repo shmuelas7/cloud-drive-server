@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const upload = require("../middleware/uploud.js");
+const fs = require("fs");
 
 const fileLogic = require("../BL/fileLogic");
 
@@ -50,6 +51,30 @@ router.post("/renameFile", function (req, res) {
   } catch (err) {
     res.send("fff");
   }
+});
+
+router.post("/delFolder", function (req, res) {
+  try {
+    console.log(req.body);
+    let res = fileLogic.delFolder(req.body.body);
+    res.send("aaaa");
+  } catch (err) {
+    res.send("fff");
+  }
+});
+
+router.get("/download", async function (req, res) {
+  const filePath = req.query.path;
+  console.log(req.query.path);
+  try {
+    let file = fs.readFile(filePath, "binary");
+
+    // const fileStream = fs.createWriteStream(file);
+    // res.write(file, "binary");
+    res.download("./" + filePath);
+    // res.end();
+    // let res = fileLogic.downloadFile(file);
+  } catch {}
 });
 
 module.exports = router;

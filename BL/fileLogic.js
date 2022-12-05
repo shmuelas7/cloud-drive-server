@@ -31,13 +31,41 @@ async function delFile(path) {
   }
 }
 
-async function renameFile(path, newName) {
+async function delFolder(path) {
   try {
-    fs.renameSync(path, newName);
-    //file removed
+    console.log("sssss");
+    if (fs.existsSync(path)) fs.rmSync(path, { recursive: true });
   } catch (err) {
     console.error(err);
   }
 }
 
-module.exports = { get_fils, uploadFiles, createFolder, delFile, renameFile };
+async function renameFile(path, newName) {
+  try {
+    fs.renameSync(path, newName);
+    console.log(path);
+    //file removed
+  } catch (err) {
+    console.error(err);
+  }
+}
+// async function downloadFile(path) {
+//   console.log(path);
+//   try {
+//     const download_write_stream = fs.createWriteStream(path);
+//     const body = await response.body;
+//     await body.pipeTo(stream);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
+module.exports = {
+  get_fils,
+  uploadFiles,
+  createFolder,
+  delFile,
+  renameFile,
+  delFolder,
+  // downloadFile,
+};
