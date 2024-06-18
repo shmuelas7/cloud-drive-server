@@ -1,64 +1,69 @@
 const fs = require("fs");
 var path = require("path");
 
-async function get_fils(path) {
+function get_fils(path, id) {
   try {
-    const res = fs.readdirSync(path);
+    const res = fs.readdirSync(`root/${id}/${path}`);
     return res;
   } catch (err) {
     throw err;
   }
 }
-async function uploadFiles(file, path) {
+async function uploadFiles(file, path, id) {
   try {
-  } catch (err) {}
+  } catch (err) { }
 }
-async function createFolder(file, path) {
+async function createFolder(file, path, id) {
   try {
-    console.log(path + "/" + file);
-    if (fs.existsSync(path)) {
-      fs.mkdirSync(path + "/" + file);
-      console.log("succsess");
+    console.log(file, path, id);
+    if (fs.existsSync(`root/${id}/${path}`)) {
+      fs.mkdirSync(`root/${id}/${path}/${file}`);
+      console.log("success");
     }
-  } catch (err) {}
+  } catch (err) { }
 }
-async function delFile(path) {
+async function delFile(path, id) {
   try {
-    fs.unlinkSync(path);
+    fs.unlinkSync(`root/${id}/${path}`);
     //file removed
   } catch (err) {
     console.error(err);
   }
 }
 
-async function delFolder(path) {
+async function delFolder(path, id) {
   try {
-    console.log("sssss");
-    if (fs.existsSync(path)) fs.rmSync(path, { recursive: true });
+    console.log(path);
+    if (fs.existsSync(`root/${id}/${path}`)) fs.rmSync(`root/${id}/${path}`, { recursive: true });
   } catch (err) {
     console.error(err);
   }
 }
 
-async function renameFile(path, newName) {
+async function renameFile(path, newName, id) {
+  console.log(`root/${id}/${path}`, newName)
   try {
-    fs.renameSync(path, newName);
+    fs.renameSync(`root/${id}/${path}`, `root/${id}/${newName}`);
     console.log(path);
     //file removed
   } catch (err) {
     console.error(err);
   }
 }
-// async function downloadFile(path) {
-//   console.log(path);
-//   try {
-//     const download_write_stream = fs.createWriteStream(path);
-//     const body = await response.body;
-//     await body.pipeTo(stream);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
+async function downloadFile(path, id) {
+  console.log(path);
+  try {
+    // let file = fs.readFileSync(path);
+    if (fs.existsSync(`root/${id}/${path}`)) {
+      let file = fs.createReadStream(`root/${id}/${path}`);
+      let stat = fs.statSync(`root/${id}/${path}`);
+      // console.log(stat);
+      return [file, stat];
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 module.exports = {
   get_fils,
@@ -67,5 +72,5 @@ module.exports = {
   delFile,
   renameFile,
   delFolder,
-  // downloadFile,
+  downloadFile,
 };
